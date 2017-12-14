@@ -66,7 +66,7 @@ def assistant(command):
             mail.starttls()
 
             #login
-            mail.login('jfishersolutions', 'dallas40')
+            mail.login('username', 'password')
 
             #send message
             mail.sendmail('John Fisher', 'JARVIS2.0@protonmail.com', content)
