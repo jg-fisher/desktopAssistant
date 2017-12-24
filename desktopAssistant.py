@@ -8,9 +8,12 @@ def talkToMe(audio):
     "speaks audio passed as argument"
 
     print(audio)
-    tts = gTTS(text=audio, lang='en')
-    tts.save('audio.mp3')
-    os.system('mpg123 audio.mp3')
+    os.system('say ' + audio)
+
+    #  use the system's inbuilt say command instead of mpg123
+    #  text_to_speech = gTTS(text=audio, lang='en')
+    #  text_to_speech.save('audio.mp3')
+    #  os.system('mpg123 audio.mp3')
 
 
 def myCommand():
