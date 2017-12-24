@@ -1,27 +1,24 @@
-    #desktop assistant
-
 from gtts import gTTS
 import speech_recognition as sr
 import os
 import webbrowser
 import smtplib
 
-#speaks audio passed as argument
 def talkToMe(audio):
+    "speaks audio passed as argument"
+
     print(audio)
     tts = gTTS(text=audio, lang='en')
     tts.save('audio.mp3')
     os.system('mpg123 audio.mp3')
 
-#ffplay
 
-#listens for commands
 def myCommand():
-    
+    "listens for commands"
+
     r = sr.Recognizer()
-    
+
     with sr.Microphone() as source:
-        print('I am ready for your next command!')
         r.pause_threshold = 1
         r.adjust_for_ambient_noise(source, duration = 1)
         audio = r.listen(source)
@@ -33,13 +30,13 @@ def myCommand():
     #loop back to continue to listen for commands if unrecognizable speech is received
     except sr.UnknownValueError:
         assistant(myCommand())
-        
+
     return command
 
 
-#if statements for executing commands
 def assistant(command):
-    
+    "if statements for executing commands"
+
     if 'open Reddit python' in command:
         chrome_path = "/usr/bin/google-chrome"
         url = 'https://www.reddit.com/r/python/'
@@ -76,19 +73,9 @@ def assistant(command):
 
             talkToMe('Email sent.')
 
-            
+
 talkToMe('I am ready for your command')
 
 #loop to continue executing multiple commands
 while True:
     assistant(myCommand())
-
-
-
-        
-        
-        
-
-
-
-
