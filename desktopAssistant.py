@@ -27,7 +27,7 @@ def myCommand():
         audio = r.listen(source)
 
     try:
-        command = r.recognize_google(audio)
+        command = r.recognize_google(audio).lower()
         print('You said: ' + command + '\n')
 
     #loop back to continue to listen for commands if unrecognizable speech is received
@@ -40,10 +40,26 @@ def myCommand():
 def assistant(command):
     "if statements for executing commands"
 
-    if 'open Reddit python' in command:
+    if 'open reddit' in command:
+        reg_ex = re.search('open reddit (.*)', command)
         chrome_path = "/usr/bin/google-chrome"
-        url = 'https://www.reddit.com/r/python/'
+        url = 'https://www.reddit.com/'
+        if reg_ex:
+            subreddit = reg_ex.group(1)
+            url = url + 'r/' + subreddit
         webbrowser.get(chrome_path).open(url)
+        print('Done!')
+
+    elif 'open website' in command:
+        reg_ex = re.search('open website (.+)', command)
+        if reg_ex:
+            domain = reg_ex.group(1)
+            url = 'https://www.' + domain
+            chrome_path = "/usr/bin/google-chrome"
+            webbrowser.open(url)
+            print('Done!')
+        else:
+            pass
 
     if 'what\'s up' in command:
         talkToMe('Just doing my thing')
