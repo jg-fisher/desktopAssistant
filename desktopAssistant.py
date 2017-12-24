@@ -1,54 +1,71 @@
-    #desktop assistant
-
 from gtts import gTTS
 import speech_recognition as sr
 import os
+import re
 import webbrowser
 import smtplib
 
-#speaks audio passed as argument
 def talkToMe(audio):
+    "speaks audio passed as argument"
+
     print(audio)
-    tts = gTTS(text=audio, lang='en')
-    tts.save('audio.mp3')
-    os.system('mpg123 audio.mp3')
+    os.system('say ' + audio)
 
-#ffplay
+    #  use the system's inbuilt say command instead of mpg123
+    #  text_to_speech = gTTS(text=audio, lang='en')
+    #  text_to_speech.save('audio.mp3')
+    #  os.system('mpg123 audio.mp3')
 
-#listens for commands
+
 def myCommand():
-    
+    "listens for commands"
+
     r = sr.Recognizer()
-    
+
     with sr.Microphone() as source:
-        print('I am ready for your next command!')
+        print('Ready...')
         r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration = 1)
+        r.adjust_for_ambient_noise(source, duration=1)
         audio = r.listen(source)
 
     try:
-        command = r.recognize_google(audio)
+        command = r.recognize_google(audio).lower()
         print('You said: ' + command + '\n')
 
     #loop back to continue to listen for commands if unrecognizable speech is received
     except sr.UnknownValueError:
-        myCommand()
-        
+        print('Your last command couldn\'t be heard')
+        command = myCommand();
+
     return command
 
 
-#if statements for executing commands
 def assistant(command):
-    
-    if 'open Reddit python' in command:
-        chrome_path = "/usr/bin/google-chrome"
-        url = 'https://www.reddit.com/r/python/'
-        webbrowser.get(chrome_path).open(url)
+    "if statements for executing commands"
 
-    if 'what\'s up' in command:
+    if 'open reddit' in command:
+        reg_ex = re.search('open reddit (.*)', command)
+        url = 'https://www.reddit.com/'
+        if reg_ex:
+            subreddit = reg_ex.group(1)
+            url = url + 'r/' + subreddit
+        webbrowser.open(url)
+        print('Done!')
+
+    elif 'open website' in command:
+        reg_ex = re.search('open website (.+)', command)
+        if reg_ex:
+            domain = reg_ex.group(1)
+            url = 'https://www.' + domain
+            webbrowser.open(url)
+            print('Done!')
+        else:
+            pass
+
+    elif 'what\'s up' in command:
         talkToMe('Just doing my thing')
 
-    if 'email' in command:
+    elif 'email' in command:
         talkToMe('Who is the recipient?')
         recipient = myCommand()
 
@@ -76,19 +93,12 @@ def assistant(command):
 
             talkToMe('Email sent.')
 
-            
+        else:
+            talkToMe('I don\'t know what you mean!')
+
+
 talkToMe('I am ready for your command')
 
 #loop to continue executing multiple commands
 while True:
     assistant(myCommand())
-
-
-
-        
-        
-        
-
-
-
-
