@@ -4,6 +4,8 @@ import os
 import re
 import webbrowser
 import smtplib
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup
 
 def talkToMe(audio):
     "speaks audio passed as argument"
@@ -63,7 +65,19 @@ def assistant(command):
             pass
 
     elif 'what\'s up' in command:
-        talkToMe('Just doing my thing')
+        request = Request('https://icanhazdadjoke.com/')
+        request.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11')
+        request.add_header('Accept', '*/*')
+        request.add_header('Accept-Language', 'en-US,en;q=0.5')
+        request.add_header('Connection', 'close')
+        try:
+            html = urlopen(request).read().decode('utf-8')
+            soup = BeautifulSoup(html, "lxml")
+            mydivs = soup.find("p", { "class" : "subtitle" })
+            talkToMe(str(mydivs.text))
+        except Exception as e:
+            print(e)
+
 
     elif 'email' in command:
         talkToMe('Who is the recipient?')
