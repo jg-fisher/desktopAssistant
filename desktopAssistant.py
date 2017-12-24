@@ -1,6 +1,7 @@
 from gtts import gTTS
 import speech_recognition as sr
 import os
+import re
 import webbrowser
 import smtplib
 
@@ -22,8 +23,9 @@ def myCommand():
     r = sr.Recognizer()
 
     with sr.Microphone() as source:
+        print('Ready...')
         r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration = 1)
+        r.adjust_for_ambient_noise(source, duration=1)
         audio = r.listen(source)
 
     try:
@@ -32,7 +34,8 @@ def myCommand():
 
     #loop back to continue to listen for commands if unrecognizable speech is received
     except sr.UnknownValueError:
-        assistant(myCommand())
+        print('Your last command couldn\'t be heard')
+        command = myCommand();
 
     return command
 
@@ -42,12 +45,11 @@ def assistant(command):
 
     if 'open reddit' in command:
         reg_ex = re.search('open reddit (.*)', command)
-        chrome_path = "/usr/bin/google-chrome"
         url = 'https://www.reddit.com/'
         if reg_ex:
             subreddit = reg_ex.group(1)
             url = url + 'r/' + subreddit
-        webbrowser.get(chrome_path).open(url)
+        webbrowser.open(url)
         print('Done!')
 
     elif 'open website' in command:
@@ -55,16 +57,15 @@ def assistant(command):
         if reg_ex:
             domain = reg_ex.group(1)
             url = 'https://www.' + domain
-            chrome_path = "/usr/bin/google-chrome"
             webbrowser.open(url)
             print('Done!')
         else:
             pass
 
-    if 'what\'s up' in command:
+    elif 'what\'s up' in command:
         talkToMe('Just doing my thing')
 
-    if 'email' in command:
+    elif 'email' in command:
         talkToMe('Who is the recipient?')
         recipient = myCommand()
 
@@ -91,6 +92,9 @@ def assistant(command):
             mail.close()
 
             talkToMe('Email sent.')
+
+        else:
+            talkToMe('I don\'t know what you mean!')
 
 
 talkToMe('I am ready for your command')
