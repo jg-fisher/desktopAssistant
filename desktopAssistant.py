@@ -32,7 +32,7 @@ def myCommand():
 
     #loop back to continue to listen for commands if unrecognizable speech is received
     except sr.UnknownValueError:
-        assistant(myCommand())
+        myCommand()
         
     return command
 
