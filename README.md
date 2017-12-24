@@ -4,7 +4,9 @@ Siri like desktop assistant written in Python which uses google's speech-to-text
 * Install the dependencies in a virtual environment (using conda or virtualenv) to avoid any issues. Use either pip2 or pip3 for python2 and python3 respectively.
 
 If you are a linux user install the [say](https://askubuntu.com/questions/501910/how-to-text-to-speech-output-using-command-line) command using
-```sudo apt-get install gnustep-gui-runtime
+```
+sudo apt-get install gnustep-gui-runtime
+```
 
 ```bash
 pip2 install -r requirements.txt
