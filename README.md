@@ -24,6 +24,5 @@ Supported commands :
 * Open reddit subreddit : Opens the subreddit in default browser.
 * Open website xyz.com : self-explanatory
 * Send email/email : Follow up questions such as recipient name, content will be asked in order.
+* Tell a joke/another joke : Says a random dad joke.
 * What's up 
-
-

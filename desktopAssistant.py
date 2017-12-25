@@ -4,12 +4,14 @@ import os
 import re
 import webbrowser
 import smtplib
+import requests
 
 def talkToMe(audio):
     "speaks audio passed as argument"
 
     print(audio)
-    os.system('say ' + audio)
+    for line in audio.splitlines():
+        os.system("say " + audio)
 
     #  use the system's inbuilt say command instead of mpg123
     #  text_to_speech = gTTS(text=audio, lang='en')
@@ -64,6 +66,16 @@ def assistant(command):
 
     elif 'what\'s up' in command:
         talkToMe('Just doing my thing')
+
+    elif 'joke' in command:
+        res = requests.get(
+                'https://icanhazdadjoke.com/',
+                headers={"Accept":"application/json"}
+                )
+        if res.status_code == requests.codes.ok:
+            talkToMe(str(res.json()['joke']))
+        else:
+            talkToMe('oops!I ran out of jokes')
 
     elif 'email' in command:
         talkToMe('Who is the recipient?')
