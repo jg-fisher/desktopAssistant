@@ -10,7 +10,8 @@ def talkToMe(audio):
     "speaks audio passed as argument"
 
     print(audio)
-    os.system('say ' + audio)
+    for line in audio.splitlines():
+        os.system("say " + audio)
 
     #  use the system's inbuilt say command instead of mpg123
     #  text_to_speech = gTTS(text=audio, lang='en')
