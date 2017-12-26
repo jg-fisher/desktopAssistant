@@ -5,6 +5,7 @@ import re
 import webbrowser
 import smtplib
 import requests
+from weather import Weather
 
 def talkToMe(audio):
     "speaks audio passed as argument"
@@ -66,7 +67,6 @@ def assistant(command):
 
     elif 'what\'s up' in command:
         talkToMe('Just doing my thing')
-
     elif 'joke' in command:
         res = requests.get(
                 'https://icanhazdadjoke.com/',
@@ -76,6 +76,27 @@ def assistant(command):
             talkToMe(str(res.json()['joke']))
         else:
             talkToMe('oops!I ran out of jokes')
+
+    elif 'current weather in' in command:
+        reg_ex = re.search('current weather in (.*)', command)
+        if reg_ex:
+            city = reg_ex.group(1)
+            weather = Weather()
+            location = weather.lookup_by_location(city)
+            condition = location.condition()
+            talkToMe('The Current weather in %s is %s The tempeture is %.1f degree' % (city, condition.text(), (int(condition.temp())-32)/1.8))
+
+    elif 'weather forecast in' in command:
+        reg_ex = re.search('weather forecast in (.*)', command)
+        if reg_ex:
+            city = reg_ex.group(1)
+            weather = Weather()
+            location = weather.lookup_by_location(city)
+            forecasts = location.forecast()
+            for i in range(0,3):
+                talkToMe('On %s will it %s. The maximum temperture will be %.1f degree.'
+                         'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
+
 
     elif 'email' in command:
         talkToMe('Who is the recipient?')
