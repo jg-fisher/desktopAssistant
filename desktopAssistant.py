@@ -64,7 +64,15 @@ def assistant(command):
             print('Done!')
         else:
             pass
-
+    
+    #for example ask "where is london"
+    elif "where is" in command:
+        command = command.split(" ")
+        location = command[2]
+        talkToMe("Just A Second Sir, I will show you where " + location + " is.")
+        URL = "https://www.google.com/maps/place/" + location + "/&amp;"        
+        webbrowser.open(URL, new=2)
+        
     elif 'what\'s up' in command:
         talkToMe('Just doing my thing')
     elif 'joke' in command:
