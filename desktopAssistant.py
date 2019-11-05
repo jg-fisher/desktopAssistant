@@ -54,10 +54,7 @@ def assistant(command):
             url = url + 'r/' + subreddit
         webbrowser.open(url)
         print('Done!')
-    
-    elif "lock my PC" in command:
-        os.system("rundll32.exe user32.dll,LockWorkStation")
-    
+
     elif 'open website' in command:
         reg_ex = re.search('open website (.+)', command)
         if reg_ex:
