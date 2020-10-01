@@ -28,3 +28,7 @@ Supported commands :
 * Current weather in {cityname} : Tells you the current condition and temperture
 * weather forecast in {cityname} : Tells you the condition, highest and lowest temperture of the next two days
 * What's up
+* shut down : shut down the system
+* open notepad : Opens the notepad
+* battery status : Tells you the current battery status of the system
+* cpu status : Tells you the current CPU status of the system
