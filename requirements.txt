@@ -11,3 +11,4 @@ SpeechRecognition==3.8.1
 urllib3==1.24.2
 beautifulsoup4==4.6.0
 weather-api==0.0.4
+psutil

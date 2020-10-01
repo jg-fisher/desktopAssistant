@@ -6,6 +6,7 @@ import webbrowser
 import smtplib
 import requests
 from weather import Weather
+import psutil
 
 def talkToMe(audio):
     "speaks audio passed as argument"
@@ -54,6 +55,20 @@ def assistant(command):
             url = url + 'r/' + subreddit
         webbrowser.open(url)
         print('Done!')
+
+    elif 'shutdown' in command:
+        talkToMe("system is going to shutdown")
+        os.system("shutdown /s /t 1")
+    
+    elif 'battery' in command:
+        battery=psutil.sensors_battery()
+        talkToMe("Your is system is at " + str(battery.percent) + " percent")
+    
+    elif 'cpu' in command:
+        talkToMe("CPU is at" + str(psutil.cpu_percent()))
+    
+    elif 'notepad' in command:
+        os.system('notepad')
 
     elif 'open website' in command:
         reg_ex = re.search('open website (.+)', command)
