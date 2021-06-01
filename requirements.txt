@@ -8,6 +8,6 @@ PyAudio==0.2.11
 pytz==2017.3
 requests==2.18.4
 SpeechRecognition==3.8.1
-urllib3==1.24.2
+urllib3==1.26.5
 beautifulsoup4==4.6.0
 weather-api==0.0.4
